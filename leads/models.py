@@ -3,7 +3,8 @@ from django.db.models.signals import post_save, pre_save
 from django.contrib.auth.models import AbstractUser
 # create database table
 class User(AbstractUser):
-    pass
+    is_organizor = models.BooleanField(default=True)
+    is_agent = models.BooleanField(default=False)
 
 class UserProfile(models.Model):
     user = models.OneToOneField("User",on_delete=models.CASCADE)

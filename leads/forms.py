@@ -39,3 +39,9 @@ class AssinAgentForm(forms.Form):
         super(AssinAgentForm,self).__init__(*args,**kwargs)
         self.fields['agent'].queryset = agents
         
+class LeadCategoryUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Lead
+        fields=(
+            'category',
+        )

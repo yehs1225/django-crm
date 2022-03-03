@@ -72,7 +72,6 @@ WSGI_APPLICATION = 'djcrm.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-print("DB_PASSWORD >> ",env("DB_PASSWORD"))
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -141,7 +140,7 @@ LOGOUT_REDIRECT_URL = '/'
 #Crispy form
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 CRISPY_TEMPLATE_PACK = "tailwind"
-ALLOWED_HOSTS = ["*"]
+
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True

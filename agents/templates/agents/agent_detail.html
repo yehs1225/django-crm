@@ -13,7 +13,7 @@
               <p class="leading-relaxed text-base ">
                   {{ agent.user.email}}
               </p>
-              <div class="">
+              <div>
                 <a href="{% url 'agents:agent-update' agent.pk%}"class=" mx-5 w-1/3 text-white bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded">
                   Update Details
                 </a>
@@ -92,9 +92,9 @@
                             </tr>
 
                         {% empty %}
-
-                        <p>There are currently no leads</p>
-
+                        <div class="pb-4">
+                            <p>There are currently no leads</p>
+                        </div>
                         {% endfor %}
                     </tbody>
                 </table>

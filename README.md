@@ -1,7 +1,10 @@
 # django-crm
 A CRM build with django.
+
 Link : https://django-crm.yehs1225.com/
+
 Notes : https://yehs1225.github.io/docs/Django/Build%20a%20CRM%20with%20Django
+
 if you want to run this project locally, you need to :
 1.  Create a new file name `.env` in `djcrm` file
 2.  Set up `.env` just like `.template.env` file

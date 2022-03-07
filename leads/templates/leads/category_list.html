@@ -16,7 +16,7 @@
               {% for category in category_list %}
                 <li class="p-3"><a class="hover:text-blue-500" href="{% url 'leads:category-detail' category.pk%}">{{ category.name }}</a></li>
               {% endfor %}
-                <li class="p-3 bg-gray-200" >Unassigned ({{ unassigned_lead_count }})</li>
+                <li class="p-3 bg-gray-200" >Unclassify ({{ unassigned_lead_count }})</li>
           </ul>
         </div>      
     </div>   

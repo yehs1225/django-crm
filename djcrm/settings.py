@@ -127,6 +127,8 @@ STATICFILES_DIRS=[
 STATIC_ROOT="static_root"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = 'media_root'
 
 AUTH_USER_MODEL = 'leads.User'
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

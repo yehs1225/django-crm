@@ -1,3 +1,4 @@
+from distutils.command.upload import upload
 from unicodedata import category
 from django.db import models
 from django.db.models.signals import post_save, pre_save
@@ -24,6 +25,8 @@ class Lead(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     phone_number = models.CharField(max_length=20)
     email = models.EmailField()
+    profile_picture = models.ImageField(null=True,blank=True,upload_to='profile_pictures')
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 

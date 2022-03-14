@@ -1,7 +1,7 @@
 from re import search
 from django.contrib import admin
 
-from .models import User,UserProfile ,Lead, Agent, Category
+from .models import User,UserProfile ,Lead, Agent, Category,FollowUp
 
 class LeadAdmin(admin.ModelAdmin):
     list_display=['first_name','last_name','age','email']
@@ -15,3 +15,4 @@ admin.site.register(UserProfile)
 admin.site.register(Lead,LeadAdmin)
 admin.site.register(Agent)
 admin.site.register(Category)
+admin.site.register(FollowUp)

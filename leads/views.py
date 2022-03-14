@@ -1,18 +1,18 @@
-from unicodedata import category
 from django.core.mail import send_mail
 from django.shortcuts import render,redirect,reverse
-from .models  import Lead,Agent,Category
+from .models  import Lead,Agent,Category,FollowUp
 from django.views.generic import TemplateView,ListView,DetailView,CreateView,UpdateView,DeleteView,FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from agents.mixins import OrganizorAndLoginRequiredMixin
+from django.contrib import messages
 from .forms import(
     LeadForm,
     LeadModelForm,
-    Lead,
     CustomUserCreationForm,
     AssinAgentForm,
     LeadCategoryUpdateForm,
     CategoryModelForm,
+    FollowUpModelForm
 ) 
 
 
@@ -94,6 +94,7 @@ class LeadCreateView(OrganizorAndLoginRequiredMixin,CreateView):
             from_email="test@test.com",
             recipient_list=["test2@test.com"]
         )
+        messages.success(self.request,"Successfully create!")
         return super(LeadCreateView,self).form_valid(form)
 
 def lead_create(request):
@@ -266,3 +267,63 @@ class LeadCategoryUpdateView(LoginRequiredMixin,UpdateView):
 
     def get_success_url(self):
         return reverse("leads:lead-list")
+
+class FollowUpCreateView(LoginRequiredMixin,CreateView):
+    template_name = "leads/followup_create.html"
+    form_class = FollowUpModelForm
+    
+    def get_success_url(self):
+        return reverse("leads:lead-detail",kwargs={"pk":self.kwargs["pk"]})
+
+    def get_context_data(self, **kwargs):
+        context = super(FollowUpCreateView,self).get_context_data(**kwargs)
+        context.update({
+            "lead":Lead.objects.get(pk=self.kwargs["pk"])
+        })
+        return context
+
+    def form_valid(self,form):
+        lead = Lead.objects.get(pk=self.kwargs["pk"])
+        followup = form.save(commit=False)
+        followup.lead = lead
+        followup.save()
+        return super(FollowUpCreateView,self).form_valid(form)
+
+class FollowUpUpdateView(OrganizorAndLoginRequiredMixin,UpdateView):
+    template_name = "leads/followup_update.html"
+    form_class = FollowUpModelForm
+    
+    def get_queryset(self):
+        user = self.request.user
+        #query followUp of the lead
+        if user.is_organizor:
+            queryset = FollowUp.objects.filter(
+                lead__organization = user.userprofile
+            )
+        else:
+            queryset = FollowUp.objects.filter(
+                lead__organization = user.agent.organization
+            )
+        return queryset
+
+    def get_success_url(self):
+        return reverse("leads:lead-detail",kwargs={"pk":self.get_object().lead.id})
+   
+class FollowUpDeleteView(OrganizorAndLoginRequiredMixin,DeleteView):
+    template_name = "leads/followup_delete.html"
+
+    def get_queryset(self):
+        user = self.request.user
+        #query followUp of the lead
+        if user.is_organizor:
+            queryset = FollowUp.objects.filter(
+                lead__organization = user.userprofile
+            )
+        else:
+            queryset = FollowUp.objects.filter(
+                lead__organization = user.agent.organization
+            )
+        return queryset
+
+    def get_success_url(self):
+        return reverse("leads:lead-detail",kwargs={"pk":self.get_object().lead.id})

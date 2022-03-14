@@ -1,6 +1,6 @@
 from dataclasses import fields
 from django import forms
-from .models import Lead,Agent,Category
+from .models import Lead,Agent,Category,FollowUp
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm,UsernameField
 
@@ -17,6 +17,7 @@ class LeadModelForm(forms.ModelForm):
             'description',
             'phone_number',
             'email',
+            'profile_picture'
         )
 
 class LeadForm(forms.Form):
@@ -54,3 +55,11 @@ class CategoryModelForm(forms.ModelForm):
         fields = (
             'name',
         )
+
+class FollowUpModelForm(forms.ModelForm):
+    class Meta:
+        model = FollowUp
+        fields = (
+            'notes',
+            'file'
+        )        

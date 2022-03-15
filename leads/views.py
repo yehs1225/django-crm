@@ -1,3 +1,4 @@
+import datetime
 from django.core.mail import send_mail
 from django.shortcuts import render,redirect,reverse
 from .models  import Lead,Agent,Category,FollowUp
@@ -25,6 +26,39 @@ class SignupView(CreateView):
 
 class LandingPageView(TemplateView):
     template_name="landing.html"
+
+    def dispatch(self, request, *args, **kwargs):
+            if request.user.is_authenticated:
+                # if already login , redirect to dashboard.html
+                return redirect("dashboard")
+            return super().dispatch(request, *args, **kwargs)  
+
+class DashboardView(OrganizorAndLoginRequiredMixin,TemplateView):
+    template_name="dashboard.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(DashboardView,self).get_context_data(**kwargs)
+        user = self.request.user
+        #How many leads we have in total
+        total_lead_count = Lead.objects.filter(organization = user.userprofile).count()
+
+        #How many new leads in the last 30 days
+        thirty_days_ago = datetime.date.today() - datetime.timedelta(days=30)
+        total_in_past30 = Lead.objects.filter(
+            organization = user.userprofile,
+            #filter field "data_added" data which are Grater Than Eqaul 30days ago
+            date_added__gte=thirty_days_ago 
+        ).count()
+
+        #How many agents we have in total
+        total_agent_count = Agent.objects.filter(organization = user.userprofile).count()
+        context.update({
+            "total_lead_count":total_lead_count,
+            "total_in_past30":total_in_past30,
+            "total_agent_count":total_agent_count
+        })
+
+        return context
 
 def landing_page(request):
     return render(request,"landing.html")
@@ -94,7 +128,7 @@ class LeadCreateView(OrganizorAndLoginRequiredMixin,CreateView):
             from_email="test@test.com",
             recipient_list=["test2@test.com"]
         )
-        messages.success(self.request,"Successfully create!")
+        messages.success(self.request,"You have successfully created a lead!")
         return super(LeadCreateView,self).form_valid(form)
 
 def lead_create(request):
@@ -117,6 +151,11 @@ class LeadUpdateView(OrganizorAndLoginRequiredMixin,UpdateView):
     
     def get_success_url(self):
         return reverse("leads:lead-list")
+
+    def form_valid(self,form):
+        form.save()
+        messages.info(self.request,"You have successfully updated this lead!")
+        return super(LeadUpdateView,self).form_valid(form)
 
 def lead_update(request,pk):
     lead = Lead.objects.get(id=pk)

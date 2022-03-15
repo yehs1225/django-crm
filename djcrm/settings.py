@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     #Third party app
     'crispy_forms',
     "crispy_tailwind",
-    
+    'tailwind',
+    'theme',
     #local app
     'leads',
     'agents',
@@ -157,3 +158,8 @@ if not DEBUG:
     X_FRAME_OPTIONS = "DENY"
 
     ALLOWED_HOSTS = ["*"]
+
+TAILWIND_APP_NAME = 'theme'
+INTERNAL_IPS = [
+    "127.0.0.1",
+]

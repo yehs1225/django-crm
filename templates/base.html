@@ -1,19 +1,21 @@
-{% load static %}
+{% load static tailwind_tags %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="{% static 'css/style.css' %}" rel="stylesheet"/>
     <title>YEHCRM</title>
     <link rel="icon" href="{% static 'images/Logo_CRM.svg' %}">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    {% tailwind_css %}
 </head>
 
 <body>
-    <div class="max-w-13xl mx-auto">
+    <div class="max-w-13xl mx-auto">  
         {% include "navbar.html" %}
-        {% block content %}
+        {% include "message.html"%}
+        {% block content %}       
         {% endblock content %}
         <script src="{% static 'js/main.js' %}"/>
     </div>  

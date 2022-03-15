@@ -3,9 +3,17 @@
 <section class="text-gray-600 body-font overflow-hidden">
   <div class="container px-5 py-24 mx-auto">
     <div class="lg:w-4/5 mx-auto flex flex-wrap">
-      <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
-        <h2 class="text-sm title-font text-gray-500 tracking-widest">LEAD</h2>
-        <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{lead.first_name}} {{lead.last_name}}</h1>
+      <div class="lg:w-1/2 w-full  mx-auto lg:pr-10 lg:py-6 mb-6 lg:mb-0">
+        <div class="w-full flex items-center justify-between space-x-6">
+          <div class="flex-1 truncate">
+              <div class="flex items-center space-x-3">
+                  <h3 class="text-3xl text-gray-900 font-medium truncate">{{ lead.first_name }} {{ lead.last_name }}</h3>
+              </div>
+          </div>
+          {% if lead.profile_picture %}
+            <img class="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0" src="{{ lead.profile_picture.url }}" alt="">
+          {% endif %}
+        </div>
         <div class="flex mb-4">
           <a href="{% url 'leads:lead-detail' lead.pk%}"class="flex-grow text-blue-500 border-b-2 border-blue-500 py-2 text-lg px-1">
             Overview
@@ -17,10 +25,7 @@
             Update Details
           </a>
         </div>
-        <p class="leading-relaxed mb-4">
-          {{lead.description}}  
-        </p>
-        <div class="flex border-t border-gray-200 py-2">
+        <div class="flex border-gray-200 py-2">
           <span class="text-gray-500">Age</span>
           <span class="ml-auto text-gray-900">{{lead.age}}</span>
         </div>
@@ -39,14 +44,60 @@
         <div class="flex border-t border-b mb-6 border-gray-200 py-2">
           <span class="text-gray-500">Date added</span>
           <span class="ml-auto text-gray-900">{{lead.date_added}}  </span>
-        </div>     
-        <div class="py-3 ">
+        </div>  
+        <p class="leading-relaxed mb-4">
+          {{lead.description}}  
+        </p>   
+        <div class="py-3">
           <a href="{% url 'leads:lead-delete' lead.pk%}"class="w-1/3 text-white bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded">
               Delete
           </a>
+          <a href="{% url 'leads:lead-followup-create' lead.pk %}"class="w-full text-white bg-blue-500 hover:bg-blue-600 px-3 py-2 mx-3 rounded-md">Add a followup </a>
+
         </div>
+        {% for followup in lead.followups.all %}
+          <div class="mx-auto mt-5 shadow px-4 sm:px-6">
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">
+                Notes (<a href="{% url 'leads:lead-followup-update' followup.pk %}" class="text-blue-500 hover:text-blue-700">update</a>)
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {{ followup.notes }}
+                </dd>
+            </div>
+            {% if followup.file %}
+              <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                  <dt class="text-sm font-medium text-gray-500">
+                  Attachments
+                  </dt>
+                  <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+                      <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                          <div class="w-0 flex-1 flex items-center">
+                              <!-- Heroicon name: paper-clip -->
+                              <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                              <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
+                              </svg>
+                              <span class="ml-2 flex-1 w-0 truncate">
+                              {{ followup.file.name }}
+                              </span>
+                          </div>
+                          <div class="ml-4 flex-shrink-0">
+                              <a href="{{ followup.file.url }}" download class="font-medium text-indigo-600 hover:text-indigo-500">
+                              Download
+                              </a>
+                          </div>
+                      </li>
+                  </ul>
+                  </dd>
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
       </div>
     </div>
+    
+  
   </div>
 </section>
 {% endblock content %}

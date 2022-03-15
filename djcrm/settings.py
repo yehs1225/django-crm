@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     #Third party app
     'crispy_forms',
     "crispy_tailwind",
-    
+    'tailwind',
+    'theme',
     #local app
     'leads',
     'agents',
@@ -124,8 +125,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS=[
     BASE_DIR/"static"
 ]
+MEDIA_URL = '/media/'
+MEDIA_ROOT = 'media_root'
 STATIC_ROOT="static_root"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 
 
 AUTH_USER_MODEL = 'leads.User'
@@ -154,3 +158,8 @@ if not DEBUG:
     X_FRAME_OPTIONS = "DENY"
 
     ALLOWED_HOSTS = ["*"]
+
+TAILWIND_APP_NAME = 'theme'
+INTERNAL_IPS = [
+    "127.0.0.1",
+]

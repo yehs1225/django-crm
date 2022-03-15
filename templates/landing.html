@@ -9,7 +9,6 @@
       <img class="lg:w-2/6 md:w-2/6 w-5/6 mb-10 object-cover object-center rounded" alt="hero" src="{% static 'images/Landing_organization.svg' %}">
       <img class="lg:w-2/6 md:w-2/6 w-5/6 mb-10 object-cover object-center rounded" alt="hero" src="{% static 'images/Landing_customer.svg' %}">
     </div>
-    {% comment %} <img class="lg:w-1/6 md:w-1/6 w-5/6 mb-10 object-cover object-center rounded" alt="hero" src="{% static 'images/Landing_agent.svg' %}"> {% endcomment %}
     <div class="text-center lg:w-2/3 w-full">
       <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
         CRM build with Django
@@ -18,13 +17,6 @@
         This CRM helps you manage your leads.
       </p>
       <div class="flex-col justify-center ">
-      {% if request.user.is_authenticated %}
-        <div class="flex justify-center mx-auto  py-3">
-          <p class="w-1/3 text-white bg-gray-500 border-0 py-2 px-6 focus:outline-none rounded">
-              Hello! {{request.user.username}}
-          </p>
-        </div>
-      {% else %}
         <div>
           <a href="{% url 'login' %}" class="w-1/3 text-white bg-blue-600 border-0 py-2 px-6 focus:outline-none hover:bg-gray-500 rounded">
               Login to get started
@@ -37,13 +29,7 @@
             Password : yehs1225
           </p>
         </div>
-      {% endif %}
-          
-        {% comment %} <button class="inline-flex text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded text-lg">Button</button> {% endcomment %}
       </div>
-      {% comment %} <div class="flex justify-center mx-auto w-1/2 py-3 mt-10 border-2 border-gray-300">
-
-      </div> {% endcomment %}
     </div>
   </div>
 </section>

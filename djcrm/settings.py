@@ -157,7 +157,7 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
     X_FRAME_OPTIONS = "DENY"
 
-    ALLOWED_HOSTS = ["*"]
+    ALLOWED_HOSTS = ['django-crm.yehs1225.com']
 
 TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS = [

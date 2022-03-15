@@ -16,7 +16,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['django-crm.yehs1225.com']
 
 # Application definition
 
